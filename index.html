@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DexScreener Bot</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <style>
+        body {
+            background: url('https://static.vecteezy.com/system/resources/previews/000/683/459/original/stock-market-or-forex-trading-graph.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DexScreener Bot</h1>
+        <h2>Admin Login</h2>
+        <input type="text" id="adminName" placeholder="Admin Name">
+        <input type="password" id="adminPassword" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <br>
+        <div id="dashboard" style="display:none;">
+            <h2>Connect Phantom Wallet</h2>
+            <button onclick="connectWallet()">Connect Wallet</button>
+            <p id="walletAddress"></p>
+            <h2>Bot Status</h2>
+            <p id="botStatus">Waiting for wallet connection...</p>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            let username = document.getElementById("adminName").value;
+            let password = document.getElementById("adminPassword").value;
+            if (username === "MillionerKane" && password === "MillionerKane.IO/Dexbot") {
+                alert("Login Successful!");
+                document.getElementById("dashboard").style.display = "block";
+            } else {
+                alert("Incorrect Admin Credentials!");
+            }
+        }
+
+        async function connectWallet() {
+            if (window.solana && window.solana.isPhantom) {
+                try {
+                    const response = await window.solana.connect();
+                    document.getElementById("walletAddress").innerText = `Connected: ${response.publicKey.toString()}`;
+                    document.getElementById("botStatus").innerText = "Bot is now running...";
+                } catch (err) {
+                    console.error("Wallet Connection Failed", err);
+                }
+            } else {
+                alert("Please install Phantom Wallet!");
+            }
+        }
+    </script>
+</body>
+</html>
